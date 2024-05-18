@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,42 +15,24 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-        return 'hello';
+        return User::all();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate(
-            [
-                'firstname' => ['required', 'alpha'],
-                'lastname' => ['required', 'alpha'],
-                'address' => ['required', 'alpha'],
-                'postcode' => ['required', 'numeric'],
-                'contact_phone_number' => ['required', 'regex:/^\+\d{1,3}\d{7,15}$/'],
-                'email' => ['required', 'email', 'unique:users,email'],
-                'username' => ['required', 'unique:users,username', 'min:8'],
-                'password' => ['required', 'min:8', 'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,16}$/'],
-            ],
-            [
-                'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character (@$!%*#?&).',
-                'contact_phone_number.regex' => 'The contact phone number format is invalid. It must start with a "+" followed by 1 to 3 digits for the country code and then 7 to 15 digits for the phone number.',
-            ]
-        );
+        try {
+            $validated = $request->validated();
+            $validated['password'] = Hash::make($validated['password']);
 
-        User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'address' => $request->address,
-            'postcode' => $request->postcode,
-            'contact_phone_number' => $request->contact_phone_number,
-            'email' => $request->email,
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-        ]);
+            $user = User::create($validated);
+
+            return $user;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -56,22 +40,36 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return User::find($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
-        //
+        try {
+            $validated = $request->validated();
+
+            $user = User::find($id);
+            $user->update($validated);
+            return $user;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        try {
+            $idsArray = explode(',', $request->all()['ids']);
+            User::destroy($idsArray);
+            return 'Deleted successfully';
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
