@@ -1,6 +1,6 @@
 <template>
     <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
-        <h1 class="text-2xl font-bold mb-6">{{ userId ? 'Edit User' : 'Add User' }}</h1>
+        <h1 class="text-2xl font-bold mb-6 text-gray-700">{{ userId ? 'Edit User' : 'Add User' }}</h1>
         <form @submit.prevent="submitForm" class="space-y-4">
             <div>
                 <label for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
