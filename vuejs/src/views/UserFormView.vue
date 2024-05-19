@@ -1,44 +1,56 @@
 <template>
-    <div>
-        <h1>{{ userId ? 'Edit User' : 'Add User' }}</h1>
-        <form @submit.prevent="submitForm" class="flex flex-col ">
+    <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
+        <h1 class="text-2xl font-bold mb-6">{{ userId ? 'Edit User' : 'Add User' }}</h1>
+        <form @submit.prevent="submitForm" class="space-y-4">
             <div>
-                <label for="firstname">First Name</label>
-                <input v-model="form.firstname" id="firstname" placeholder="First Name" required>
+                <label for="firstname" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input v-model="form.firstname" id="firstname" type="text" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <div>
-                <label for="lastname">Last Name</label>
-                <input v-model="form.lastname" id="lastname" placeholder="Last Name" required>
+                <label for="lastname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input v-model="form.lastname" id="lastname" type="text" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <div>
-                <label for="address">Address</label>
-                <input v-model="form.address" id="address" placeholder="Address" required>
+                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                <input v-model="form.address" id="address" type="text" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <div>
-                <label for="postcode">Postcode</label>
-                <input v-model="form.postcode" id="postcode" placeholder="Postcode" required>
+                <label for="postcode" class="block text-sm font-medium text-gray-700">Postcode</label>
+                <input v-model="form.postcode" id="postcode" type="text" placeholder="0000" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <div>
-                <label for="contact_phone_number">Phone Number</label>
-                <input v-model="form.contact_phone_number" id="contact_phone_number" placeholder="Phone Number"
-                    required>
+                <label for="contact_phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                <input v-model="form.contact_phone_number" id="contact_phone_number" type="text"
+                    placeholder="+639123456789" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <div>
-                <label for="email">Email</label>
-                <input v-model="form.email" id="email" type="email" placeholder="Email" required>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input v-model="form.email" id="email" type="email" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <div>
-                <label for="username">Username</label>
-                <input v-model="form.username" id="username" placeholder="Username" required>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input v-model="form.username" id="username" type="text" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <div v-if="!userId">
-                <label for="password">Password</label>
-                <input v-model="form.password" id="password" type="password" placeholder="Password" required>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input v-model="form.password" id="password" type="password" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
-            <button type="submit">{{ userId ? 'Update' : 'Add' }}</button>
+            <button type="submit"
+                class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {{ userId ? 'Update' : 'Add' }}
+            </button>
         </form>
     </div>
 </template>
+
 
 <script>
 import { ref, onMounted } from 'vue';
@@ -62,18 +74,33 @@ export default {
         const router = useRouter();
         const userId = ref(route.params.id);
 
+        // Retrieve the token from localStorage
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        }
+
         const fetchUser = async (id) => {
-            const response = await axios.get(`http://localhost:8001/api/users/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+            const response = await axios.get(`http://localhost:8001/api/users/${id}`);
             form.value = response.data;
         };
 
         const submitForm = async () => {
             if (userId.value) {
-                await axios.put(`http://localhost:8001/api/users/${userId.value}`, form.value, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+                try {
+                    await axios.put(`http://localhost:8001/api/users/${userId.value}`, form.value);
+                    router.push('/user-management');
+                } catch (error) {
+                    alert(error.response.data.message);
+                }
             } else {
-                await axios.post('http://localhost:8001/api/users', form.value, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+                try {
+                    await axios.post('http://localhost:8001/api/users', form.value);
+                    router.push('/user-management');
+                } catch (error) {
+                    alert(error.response.data.message);
+                }
             }
-            router.push('/user-management');
         };
 
         onMounted(() => {
