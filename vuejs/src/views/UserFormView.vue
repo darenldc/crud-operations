@@ -55,7 +55,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
+import axios from '../axios';
 
 export default {
     name: 'UserForm',
@@ -81,21 +81,21 @@ export default {
         }
 
         const fetchUser = async (id) => {
-            const response = await axios.get(`http://localhost:8001/api/users/${id}`);
+            const response = await axios.get(`/users/${id}`);
             form.value = response.data;
         };
 
         const submitForm = async () => {
             if (userId.value) {
                 try {
-                    await axios.put(`http://localhost:8001/api/users/${userId.value}`, form.value);
+                    await axios.put(`/users/${userId.value}`, form.value);
                     router.push('/user-management');
                 } catch (error) {
                     alert(error.response.data.message);
                 }
             } else {
                 try {
-                    await axios.post('http://localhost:8001/api/users', form.value);
+                    await axios.post('/users', form.value);
                     router.push('/user-management');
                 } catch (error) {
                     alert(error.response.data.message);

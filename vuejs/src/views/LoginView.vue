@@ -15,7 +15,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import axios from '../axios';
 
 export default {
     name: 'login',
@@ -27,10 +27,14 @@ export default {
         const router = useRouter();
 
         const login = async () => {
-            const response = await axios.post('http://localhost:8001/api/login', form.value);
-            localStorage.setItem('sanctum_generated_token', response.data.access_token);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
-            router.push('/user-management');
+            try {
+                const response = await axios.post('/login', form.value);
+                localStorage.setItem('sanctum_generated_token', response.data.access_token);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+                router.push('/user-management');
+            } catch (error) {
+                alert('Incorrect username or password');
+            }
         };
 
         return {

@@ -43,7 +43,7 @@
 <script>
 import { ref, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import axios from '../axios';
 
 export default {
     name: 'user-management',
@@ -67,12 +67,12 @@ export default {
         };
 
         const fetchUsers = async () => {
-            const response = await axios.get('http://localhost:8001/api/users');
+            const response = await axios.get('/users');
             users.value = response.data;
         };
 
         const deleteUser = async (id) => {
-            await axios.delete(`http://localhost:8001/api/users/delete?ids=${id}`);
+            await axios.delete(`/users/delete?ids=${id}`);
             fetchUsers();
         };
 
