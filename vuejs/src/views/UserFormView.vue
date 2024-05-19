@@ -75,7 +75,7 @@ export default {
         const userId = ref(route.params.id);
 
         // Retrieve the token from localStorage
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('sanctum_generated_token');
         if (token) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         }

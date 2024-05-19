@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'lastname' => fake()->lastName,
             'address' => fake()->address,
             'postcode' => fake()->postcode,
-            'contact_phone_number' => fake()->phoneNumber,
+            'contact_phone_number' => `+639` . fake()->numberBetween(000000000, 999999999),
             'email' => fake()->unique()->safeEmail,
             'username' => fake()->unique()->userName,
             'password' => Hash::make('password'),

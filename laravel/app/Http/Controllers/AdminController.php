@@ -25,4 +25,9 @@ class AdminController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response(['message' => 'Logout successful.'], 200);
     }
+
+    public function token_check()
+    {
+        return response(['message' => 'Token is valid.'], 200);
+    }
 }

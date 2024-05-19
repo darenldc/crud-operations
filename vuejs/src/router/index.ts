@@ -28,9 +28,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && !localStorage.getItem('token')) {
+  if (to.name !== 'login' && !localStorage.getItem('sanctum_generated_token')) {
     next({ name: 'login' })
-  } else if (to.name === 'login' && localStorage.getItem('token')) {
+  } else if (to.name === 'login' && localStorage.getItem('sanctum_generated_token')) {
     next({ name: 'user-management' })
   } else {
     next()

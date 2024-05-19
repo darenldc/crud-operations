@@ -28,7 +28,7 @@ export default {
 
         const login = async () => {
             const response = await axios.post('http://localhost:8001/api/login', form.value);
-            localStorage.setItem('token', response.data.access_token);
+            localStorage.setItem('sanctum_generated_token', response.data.access_token);
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
             router.push('/user-management');
         };

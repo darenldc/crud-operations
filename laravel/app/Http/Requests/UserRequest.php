@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
             'firstname' => [$is_required],
             'lastname' => [$is_required],
             'address' => [$is_required],
-            'postcode' => [$is_required, 'numeric'],
+            'postcode' => [$is_required,],
             'contact_phone_number' => [$is_required, 'regex:/^\+\d{1,3}\d{7,15}$/'],
             'email' => [$is_required, 'email'],
             'username' => [$is_required, 'min:8'],
@@ -36,11 +36,10 @@ class UserRequest extends FormRequest
         ];
 
         if ($this->method('PUT') || $this->method('PATCH')) {
-            $user_id = $this->route('user'); // Assuming 'user' is the key for the route parameter
+            $user_id = $this->route('user'); 
             $rules['email'][] = Rule::unique('users', 'email')->ignore($this->user);
             $rules['username'][] = Rule::unique('users', 'username')->ignore($this->user);
         } else {
-            // It's a create operation
             $rules['email'][] = Rule::unique('users', 'email');
             $rules['username'][] = Rule::unique('users', 'username');
         }
