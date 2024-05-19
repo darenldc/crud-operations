@@ -1,0 +1,79 @@
+{
+  "hash": "93ec9789",
+  "configHash": "05278d67",
+  "lockfileHash": "5c0b8815",
+  "browserHash": "a8e41250",
+  "optimized": {
+    "vue": {
+      "src": "../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "f301c1bd",
+      "needsInterop": false
+    },
+    "pinia": {
+      "src": "../../node_modules/pinia/dist/pinia.mjs",
+      "file": "pinia.js",
+      "fileHash": "cbcb8842",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "f8ef087d",
+      "needsInterop": false
+    },
+    "primevue/config": {
+      "src": "../../node_modules/primevue/config/config.esm.js",
+      "file": "primevue_config.js",
+      "fileHash": "7cbef032",
+      "needsInterop": false
+    },
+    "primevue/password": {
+      "src": "../../node_modules/primevue/password/password.esm.js",
+      "file": "primevue_password.js",
+      "fileHash": "792106b8",
+      "needsInterop": false
+    },
+    "primevue/inputtext": {
+      "src": "../../node_modules/primevue/inputtext/inputtext.esm.js",
+      "file": "primevue_inputtext.js",
+      "fileHash": "956601b2",
+      "needsInterop": false
+    },
+    "primevue/button": {
+      "src": "../../node_modules/primevue/button/button.esm.js",
+      "file": "primevue_button.js",
+      "fileHash": "e4df0934",
+      "needsInterop": false
+    },
+    "vue-router": {
+      "src": "../../node_modules/vue-router/dist/vue-router.mjs",
+      "file": "vue-router.js",
+      "fileHash": "64d72eb8",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-QMYPT6DI": {
+      "file": "chunk-QMYPT6DI.js"
+    },
+    "chunk-4ISPGUYA": {
+      "file": "chunk-4ISPGUYA.js"
+    },
+    "chunk-OAICBW5H": {
+      "file": "chunk-OAICBW5H.js"
+    },
+    "chunk-47ILGSOC": {
+      "file": "chunk-47ILGSOC.js"
+    },
+    "chunk-AYVSL3LM": {
+      "file": "chunk-AYVSL3LM.js"
+    },
+    "chunk-XSWAMETM": {
+      "file": "chunk-XSWAMETM.js"
+    },
+    "chunk-CSAU5B4Q": {
+      "file": "chunk-CSAU5B4Q.js"
+    }
+  }
+}
